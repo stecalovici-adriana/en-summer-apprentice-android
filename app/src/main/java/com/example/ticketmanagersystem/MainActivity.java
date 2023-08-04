@@ -110,8 +110,9 @@ public class MainActivity extends AppCompatActivity {
         Button shoppingCartButton = findViewById(R.id.shopping_cart); // Asigură-te că id-ul este corect
         shoppingCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openOrderActivity();
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), OrderActivity.class);
+                startActivity(intent);
             }
         });
 

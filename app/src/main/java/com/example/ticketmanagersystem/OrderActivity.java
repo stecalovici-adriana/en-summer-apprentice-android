@@ -1,6 +1,7 @@
 package com.example.ticketmanagersystem;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,32 +30,29 @@ public class OrderActivity extends AppCompatActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        // Initialize views
-        Spinner ticketCategorySpinner = findViewById(R.id.ticketCategorySpinner);
-        numberOfTicketsEditText = findViewById(R.id.numberOfTicketsEditText);
-        Button checkoutButton = findViewById(R.id.checkoutButton);
+        Toolbar toolbar = findViewById(R.id.toolbar_order);
+        setSupportActionBar(toolbar);
+
+        // Asigurăm afișarea butonului de back (săgeată) în Toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+
 
         // Get the event data passed from MainActivity
         Event event = getIntent().getParcelableExtra("event");
 
-        // Set up the Ticket Category spinner
-        List<String> ticketCategoryNames = new ArrayList<>();
-        for (TicketCategory ticketCategory : event.getTicketCategories()) {
-            ticketCategoryNames.add(ticketCategory.getDescription());
-        }
-        ArrayAdapter<String> ticketCategoryAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, ticketCategoryNames);
-        ticketCategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ticketCategorySpinner.setAdapter(ticketCategoryAdapter);
-        ticketCategorySpinner.setOnItemSelectedListener(this);
 
-        // Set up the Checkout button click listener
-        checkoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleCheckout();
-            }
-        });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Butonul de navigare înapoi (back button) a fost apăsat
+            onBackPressed(); // Închide activitatea curentă și revine la activitatea anterioară
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -87,11 +86,10 @@ public class OrderActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private void handleCheckout() {
-        if (totalPrice.compareTo(BigDecimal.ZERO) > 0) {
-            String message = "Total price: " + totalPrice.toString();
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Please select ticket category and enter the number of tickets.", Toast.LENGTH_SHORT).show();
+
+        EditText usernameEditText = (EditText) findViewById(R.id.numberOfTicketsEditText);
+        if (!usernameEditText.getText().toString().matches("")) {
+            Toast.makeText(this, "You did not enter a number of ticker", Toast.LENGTH_SHORT).show();
         }
     }
 }

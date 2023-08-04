@@ -6,36 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_blue"
-    tools:context=".MainActivity">
+    tools:context=".OrderActivity">
 
-    <Spinner
-        android:id="@+id/ticketCategorySpinner"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_order"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:entries="@array/ticket_categories"
-        android:prompt="@string/select_ticket_category"
-        android:spinnerMode="dropdown"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/blue_gradient"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        app:title="OrderActivity"
+        app:titleMarginStart="30dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/numberOfTicketsEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/enter_number_of_tickets"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ticketCategorySpinner" />
-
-    <Button
-        android:id="@+id/checkoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/checkout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numberOfTicketsEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
