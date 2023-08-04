@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="4dp"
+    android:padding="8dp">
+
+    <!-- Add a ScrollView to wrap the LinearLayout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/light_blue">
+
+            <!-- The existing views inside LinearLayout -->
+
+            <ImageView
+                android:id="@+id/eventImageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/untold" />
+
+            <TextView
+                android:id="@+id/eventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Event Name"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/eventDescriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Event Description"
+                android:textSize="16sp" />
+
+            <!-- Adăugăm dropdown pentru selectarea categoriei de bilete -->
+            <Spinner
+                android:id="@+id/ticketCategorySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:entries="@array/ticket_categories"
+                android:prompt="@string/select_ticket_category"
+                android:spinnerMode="dropdown" />
+
+            <!-- Adăugăm input pentru numărul total de bilete -->
+            <EditText
+                android:id="@+id/numberOfTicketsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/enter_number_of_tickets"
+                android:inputType="number" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <!-- Spațiu pentru a poziționa butonul de like în stânga -->
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <!-- Butonul de Checkout -->
+                <Button
+                    android:id="@+id/checkoutButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/checkout"
+                    android:layout_gravity="center_vertical" />
+
+                <!-- Spațiu pentru a poziționa butonul de like în dreapta -->
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <!-- Butonul de Like -->
+                <ImageView
+                    android:id="@+id/likeButton"
+                    android:layout_width="32dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/like"
+                    android:background="@drawable/selector_like_button" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.cardview.widget.CardView>
