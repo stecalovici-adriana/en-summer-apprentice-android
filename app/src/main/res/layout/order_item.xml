@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:padding="8dp"
+    android:background="@color/white"
+    app:cardCornerRadius="8dp">
+
+    <!-- Adăugați aici elementele pe care doriți să le afișați pentru fiecare order -->
+    <TextView
+        android:id="@+id/eventNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Name"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/totalPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Price: $0"
+        android:textColor="#000"
+        android:textSize="16sp"/>
+
+    <!-- Puteți adăuga și alte elemente, cum ar fi numărul de bilete, data evenimentului, etc. -->
+</androidx.cardview.widget.CardView>

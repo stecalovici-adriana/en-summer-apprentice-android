@@ -1,6 +1,7 @@
 package com.example.ticketmanagersystem;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,12 +12,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrderActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -37,14 +39,20 @@ public class OrderActivity extends AppCompatActivity implements AdapterView.OnIt
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
-
-
         // Get the event data passed from MainActivity
         Event event = getIntent().getParcelableExtra("event");
 
+        // Inițializăm și adăugăm un listener pentru butonul de checkout
+        Button checkoutButton = findViewById(R.id.checkoutButton);
+        checkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleCheckout(); // Apelăm metoda care va gestiona comenzile de checkout
+            }
+        });
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -58,8 +66,7 @@ public class OrderActivity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         selectedTicketCategories.clear();
-        Event event = getIntent().getParcelableExtra("event");
-        TicketCategory selectedTicketCategory = event.getTicketCategories().get(position);
+        TicketCategory selectedTicketCategory = (TicketCategory) parent.getItemAtPosition(position);
         selectedTicketCategories.add(selectedTicketCategory);
         updateTotalPrice();
     }
@@ -77,7 +84,7 @@ public class OrderActivity extends AppCompatActivity implements AdapterView.OnIt
             // Handle the case when the input is not a valid number
         }
 
-        if (numberOfTickets > 0 && selectedTicketCategories.size() > 0) {
+        if (numberOfTickets > 0 && !selectedTicketCategories.isEmpty()) {
             BigDecimal ticketPrice = selectedTicketCategories.get(0).getPrice();
             totalPrice = ticketPrice.multiply(BigDecimal.valueOf(numberOfTickets));
         } else {
@@ -86,10 +93,54 @@ public class OrderActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private void handleCheckout() {
+        String numberOfTicketsStr = numberOfTicketsEditText.getText().toString().trim();
 
-        EditText usernameEditText = (EditText) findViewById(R.id.numberOfTicketsEditText);
-        if (!usernameEditText.getText().toString().matches("")) {
-            Toast.makeText(this, "You did not enter a number of ticker", Toast.LENGTH_SHORT).show();
+        if (numberOfTicketsStr.isEmpty()) {
+            Toast.makeText(this, "Please enter the number of tickets", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        int numberOfTickets = Integer.parseInt(numberOfTicketsStr);
+
+        if (numberOfTickets <= 0) {
+            Toast.makeText(this, "Number of tickets must be greater than 0", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (selectedTicketCategories.isEmpty()) {
+            Toast.makeText(this, "Please select a ticket category", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Calculează prețul total
+        BigDecimal ticketPrice = selectedTicketCategories.get(0).getPrice();
+        totalPrice = ticketPrice.multiply(BigDecimal.valueOf(numberOfTickets));
+
+        // Afișează dialogul de confirmare
+        showConfirmationDialog(totalPrice, numberOfTickets);
+    }
+
+    private void showConfirmationDialog(BigDecimal totalPrice, int numberOfTickets) {
+        // Construiți conținutul dialogului de confirmare cu detaliile comenzii
+        String confirmationMessage = "Total Price: $" + totalPrice + "\n"
+                + "Number of Tickets: " + numberOfTickets;
+
+        // Creați și afișați dialogul
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Order Confirmation")
+                .setMessage(confirmationMessage)
+                .setPositiveButton("Confirm", (dialog, which) -> {
+                    // Dacă utilizatorul confirmă, puteți implementa aici acțiunea de plasare a comenzii
+                    // De exemplu, puteți trimite comanda la server sau efectua o altă acțiune
+                    // După plasarea comenzii, puteți naviga către o altă activitate, dacă este necesar.
+                    // Exemplu: startActivity(new Intent(OrderActivity.this, SomeOtherActivity.class));
+                    Toast.makeText(OrderActivity.this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    // Dacă utilizatorul anulează, pur și simplu închideți dialogul
+                    dialog.dismiss();
+                })
+                .create()
+                .show();
     }
 }
